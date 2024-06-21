@@ -1,6 +1,7 @@
 import express from "express";
 import fs from "fs";
 import crypto from "crypto";
+import { timeStamp } from "console";
 
 const router = express.Router();
 
@@ -22,12 +23,35 @@ router.get("/:id", (req, res) => {
   if (singlevideo) {
     res.json(singlevideo);
   } else {
-    // If no note found with the given ID, return 404 error
     res.status(404).json({
       message: "Please enter a valid ID",
       error: "404",
     });
   }
+});
+
+router.post("/", (req, res) => {
+  const newVideo = {
+    id: crypto.randomUUID(),
+    title: req.body.title,
+    channel: "User Upload",
+    image: req.body.image,
+    description: req.body.description,
+    views: "980,544",
+    likes: "22,479",
+    duration: "4:01",
+    video: "placeholder",
+    timeStamp: timeStamp,
+    comments: [],
+  };
+
+  const videos = readData();
+
+  videos.push(newVideo);
+
+  fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
+
+  res.status(201).json(newVideo);
 });
 
 export default router;
