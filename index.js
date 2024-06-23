@@ -1,12 +1,12 @@
 import express from "express";
 import videoRoutes from "./routes/videos.js";
 import cors from "cors";
-import fs from "fs";
 import "dotenv/config";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/images", express.static("./public/images"));
 
 const PORT = process.env.PORT || 8080;
 

@@ -1,7 +1,6 @@
 import express from "express";
 import fs from "fs";
 import crypto from "crypto";
-import { timeStamp } from "console";
 
 const router = express.Router();
 
@@ -41,7 +40,7 @@ router.post("/", (req, res) => {
     likes: "22,479",
     duration: "4:01",
     video: "placeholder",
-    timeStamp: timeStamp,
+    timeStamp: new Date().toISOString(),
     comments: [],
   };
 
@@ -49,7 +48,7 @@ router.post("/", (req, res) => {
 
   videos.push(newVideo);
 
-  fs.writeFileSync("./data/videos.json", JSON.stringify(videos));
+  fs.writeFileSync("./data/videos.json", JSON.stringify(videos, null, 2));
 
   res.status(201).json(newVideo);
 });
